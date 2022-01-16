@@ -2,7 +2,6 @@
 const { Schema, model } = require("mongoose");
 
 // Create new userSchema using Mongoose constructor
-
 const userSchema = new Schema(
   {
     username: {

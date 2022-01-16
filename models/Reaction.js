@@ -3,7 +3,6 @@ const { Schema, Types } = require("mongoose");
 const moment = require("moment");
 
 // Create new reactionSchema using Mongoose constructor
-
 const reactionSchema = new Schema(
   {
     reactionId: {
