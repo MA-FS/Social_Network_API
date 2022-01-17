@@ -1,13 +1,7 @@
 const mongoose = require("mongoose");
 
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/socialmediaapi",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  }
+  process.env.MONGODB_URI || "mongodb://localhost/socialmediaapi"
 );
 
 module.exports = mongoose.connection;
