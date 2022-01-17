@@ -24,7 +24,7 @@ Functions include;
 
 ### **Result**
 
-![Social Network API](link)
+![Social Network API](https://github.com/MA-FS/Social_Network_API/blob/main/assets/Insomnia.png?raw=true)
 
 ### **GitHub Information**
 
