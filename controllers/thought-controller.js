@@ -16,19 +16,24 @@ const thoughtController = {
 
   // GET to get a single thought by its _id
   getSingleThought(req, res) {
-    Thought.findOne({ _id: req.params.thoughtId })
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          return res
-            .status(404)
-            .json({ message: "No thought with this ID exists." });
-        }
-        res.json(dbThoughtData);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+    const id = req.params.thoughtId;
+    // Ensure string is a valid ObjectID
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(404).json({ message: "No user with this ID exists." });
+    } else
+      Thought.findOne({ _id: id })
+        .then((dbThoughtData) => {
+          if (!dbThoughtData) {
+            return res
+              .status(404)
+              .json({ message: "No thought with this ID exists." });
+          }
+          res.json(dbThoughtData);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json(err);
+        });
   },
 
   // POST to create a new thought
@@ -59,97 +64,117 @@ const thoughtController = {
 
   // PUT to update a thought by its _id
   updateThought(req, res) {
-    Thought.findOneAndUpdate(
-      { _id: req.params.thoughtId },
-      { $set: req.body },
-      { runValidators: true, new: true }
-    )
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          return res
-            .status(404)
-            .json({ message: "No thought with this ID exists." });
-        }
-        res.json(dbThoughtData);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+    const id = req.params.thoughtId;
+    // Ensure string is a valid ObjectID
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(404).json({ message: "No user with this ID exists." });
+    } else
+      Thought.findOneAndUpdate(
+        { _id: id },
+        { $set: req.body },
+        { runValidators: true, new: true }
+      )
+        .then((dbThoughtData) => {
+          if (!dbThoughtData) {
+            return res
+              .status(404)
+              .json({ message: "No thought with this ID exists." });
+          }
+          res.json(dbThoughtData);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json(err);
+        });
   },
 
   // DELETE to pull and remove a reaction by the reaction's reactionId value
   deleteThought(req, res) {
-    Thought.findOneAndRemove({ _id: req.params.thoughtId })
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          return res
-            .status(404)
-            .json({ message: "No thought with this ID exists." });
-        }
+    const id = req.params.thoughtId;
+    // Ensure string is a valid ObjectID
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(404).json({ message: "No user with this ID exists." });
+    } else
+      Thought.findOneAndRemove({ _id: id })
+        .then((dbThoughtData) => {
+          if (!dbThoughtData) {
+            return res
+              .status(404)
+              .json({ message: "No thought with this ID exists." });
+          }
 
-        // Remove Thought ID
-        return User.findOneAndUpdate(
-          { thoughts: req.params.thoughtId },
-          { $pull: { thoughts: req.params.thoughtId } },
-          { new: true }
-        );
-      })
-      .then((dbUserData) => {
-        if (!dbUserData) {
-          return res.status(404).json({
-            message:
-              "Thought has been created but no user with this ID exists.",
-          });
-        }
-        res.json({ message: "Thought has been deleted!" });
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+          // Remove Thought ID
+          return User.findOneAndUpdate(
+            { thoughts: id },
+            { $pull: { thoughts: id } },
+            { new: true }
+          );
+        })
+        .then((dbUserData) => {
+          if (!dbUserData) {
+            return res.status(404).json({
+              message:
+                "Thought has been created but no user with this ID exists.",
+            });
+          }
+          res.json({ message: "Thought has been deleted!" });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json(err);
+        });
   },
 
   // Add a reaction to a Thought
   addReaction(req, res) {
-    Thought.findOneAndUpdate(
-      { _id: req.params.thoughtId },
-      { $addToSet: { reactions: req.body } },
-      { runValidators: true, new: true }
-    )
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          return res
-            .status(404)
-            .json({ message: "No user with this ID exists." });
-        }
-        res.json(dbThoughtData);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+    const id = req.params.thoughtId;
+    // Ensure string is a valid ObjectID
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(404).json({ message: "No user with this ID exists." });
+    } else
+      Thought.findOneAndUpdate(
+        { _id: id },
+        { $addToSet: { reactions: req.body } },
+        { runValidators: true, new: true }
+      )
+        .then((dbThoughtData) => {
+          if (!dbThoughtData) {
+            return res
+              .status(404)
+              .json({ message: "No user with this ID exists." });
+          }
+          res.json(dbThoughtData);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json(err);
+        });
   },
 
   // Remove reaction from a Thought
   removeReaction(req, res) {
-    Thought.findOneAndUpdate(
-      { _id: req.params.thoughtId },
-      { $pull: { reactions: { reactionId: req.params.reactionId } } },
-      { runValidators: true, new: true }
-    )
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          return res
-            .status(404)
-            .json({ message: "No thought with this ID exists." });
-        }
-        res.json(dbThoughtData);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+    const id = req.params.thoughtId;
+    // Ensure string is a valid ObjectID
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(404).json({ message: "No user with this ID exists." });
+    } else
+      Thought.findOneAndUpdate(
+        { _id: id },
+        { $pull: { reactions: { reactionId: req.params.reactionId } } },
+        { runValidators: true, new: true }
+      )
+        .then((dbThoughtData) => {
+          if (!dbThoughtData) {
+            return res
+              .status(404)
+              .json({ message: "No thought with this ID exists." });
+          }
+          res.json(dbThoughtData);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json(err);
+        });
   },
 };
 
