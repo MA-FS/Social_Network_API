@@ -19,7 +19,9 @@ const thoughtController = {
     const id = req.params.thoughtId;
     // Ensure string is a valid ObjectID
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-      return res.status(404).json({ message: "No user with this ID exists." });
+      return res
+        .status(404)
+        .json({ message: "No thought with this ID exists." });
     } else
       Thought.findOne({ _id: id })
         .then((dbThoughtData) => {
@@ -67,7 +69,9 @@ const thoughtController = {
     const id = req.params.thoughtId;
     // Ensure string is a valid ObjectID
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-      return res.status(404).json({ message: "No user with this ID exists." });
+      return res
+        .status(404)
+        .json({ message: "No thought with this ID exists." });
     } else
       Thought.findOneAndUpdate(
         { _id: id },
@@ -93,7 +97,9 @@ const thoughtController = {
     const id = req.params.thoughtId;
     // Ensure string is a valid ObjectID
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-      return res.status(404).json({ message: "No user with this ID exists." });
+      return res
+        .status(404)
+        .json({ message: "No thought with this ID exists." });
     } else
       Thought.findOneAndRemove({ _id: id })
         .then((dbThoughtData) => {
@@ -130,7 +136,9 @@ const thoughtController = {
     const id = req.params.thoughtId;
     // Ensure string is a valid ObjectID
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-      return res.status(404).json({ message: "No user with this ID exists." });
+      return res
+        .status(404)
+        .json({ message: "No thought with this ID exists." });
     } else
       Thought.findOneAndUpdate(
         { _id: id },
@@ -156,7 +164,9 @@ const thoughtController = {
     const id = req.params.thoughtId;
     // Ensure string is a valid ObjectID
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-      return res.status(404).json({ message: "No user with this ID exists." });
+      return res
+        .status(404)
+        .json({ message: "No thought with this ID exists." });
     } else
       Thought.findOneAndUpdate(
         { _id: id },
